@@ -50,3 +50,43 @@ CREATE TABLE
 
 DROP TABLE IF EXISTS treatment_histories;
 
+DROP TABLE IF EXISTS invoice_items;
+CREATE TABLE
+    invoice_items (
+        id SERIAL PRIMARY KEY,
+        unit_price DECIMAL(8, 2) NOT NULL,
+        quantity INTEGER NOT NULL,
+        total_price DECIMAL(8, 2) NOT NULL,
+        invoice_id INTEGER NOT NULL,
+        treatment_id INTEGER NOT NULL,
+        FOREIGN KEY (invoice_id) REFERENCES invoices(id),
+        FOREIGN KEY (treatment_id) REFERENCES treatments(id)
+    );
+DROP INDEX IF EXISTS invoice_items_invoice_id_asc;
+CREATE INDEX invoice_items_invoice_id_asc ON invoice_items (invoice_id ASC);
+DROP INDEX IF EXISTS invoice_items_treatment_id_asc;
+CREATE INDEX invoice_items_treatment_id_asc ON invoice_items (treatment_id ASC);
+CREATE TABLE
+    treatment_histories (
+        med_history_id INTEGER NOT NULL,
+        treatment_id INTEGER NOT NULL,
+        CONSTRAINT PK_Treatment_histories PRIMARY KEY (med_history_id, treatment_id),
+        FOREIGN KEY (med_history_id) REFERENCES medical_histories(id),
+        FOREIGN KEY (treatment_id) REFERENCES treatments(id)
+    );
+DROP INDEX IF EXISTS th_med_history_id_asc;
+CREATE INDEX th_med_history_id_asc ON treatment_histories (med_history_id ASC);
+DROP INDEX IF EXISTS th_treatment_id_asc;
+CREATE INDEX th_treatment_id_asc ON treatment_histories (treatment_id ASC);
+
+
+
+
+
+
+
+
+
+
+
+
